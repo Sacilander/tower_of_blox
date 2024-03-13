@@ -43,22 +43,45 @@ while run:
     if block_falling:
         block_y += block_speed
 
-    upper_block = pygame.Rect(tower[-1][0], tower [-1][1], block_width, block_height)
-    if pygame.Rect(block_x, block_y, block_width, block_height).colliderect(upper_block):
-        block_falling = False
-        tower.append([block_x, block_y])
-        block_y = 50
-        score += 1
+        upper_block = pygame.Rect(tower[-1][0], tower [-1][1], block_width, block_height)
+        if pygame.Rect(block_x, block_y, block_width, block_height).colliderect(upper_block):
+            block_falling = False
+            tower.append([block_x, block_y])
+            block_y = 50
+            score += 1
+
+        else:
+            for block in tower[:-1]:
+                lower_blocks = pygame.Rect(block[0], block [1], block_width, block_height)
+                if pygame.Rect(block_x, block_y, block_width, block_height).colliderect(lower_blocks):
+                    tower_falling = True
+                    break
+            if block_y + block_height > HEIGHT:
+                run = False
+                print("Game Over")
 
     else:
-        for block in tower [:-1]:
-            lower_blocks = pygame.Rect(block[0], block [1], block_width, block_height)
-            if pygame.Rect(block_x, block_y, block_width, block_height).colliderect(lower_blocks):
-                tower_falling = True
-                break
-        if block_y + block_height > HEIGHT:
-            run = False
-            print("Game Over")
+        block_x += block_speed * block_direction
+        if block_x + block_width > WIDTH or block_x < 0:
+            block_direction *= -1
+        if len(tower) > 4:
+            for block in tower:
+                block[1] += scroll_speed
+        if tower_falling:
+            for block in tower:
+                block[0] += block_speed
+
+    screen.fill(WHITE)
+    for block in tower:
+        screen.blit(block_image, (block[0], block[1]))
+    screen.blit(block_image, (block_x, block_y))
+
+
+
+    pygame.display.flip()
+    clock.tick(FPS)
+
+
 
 my_list = [1, 2, 3, 4]
 print(my_list[2:-1])
