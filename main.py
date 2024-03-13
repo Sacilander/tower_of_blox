@@ -76,7 +76,8 @@ while run:
         screen.blit(block_image, (block[0], block[1]))
     screen.blit(block_image, (block_x, block_y))
 
-
+    score_label = font.render( f"Score: {score}", True, BLACK)
+    screen.blit(score_label, (15, 15))
 
     pygame.display.flip()
     clock.tick(FPS)
