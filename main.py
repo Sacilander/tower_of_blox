@@ -13,8 +13,10 @@ FPS = 60
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-block_image = pygame.image.load("block.png")
-block_image = pygame.transform.scale(block_image, (50, 50))
+block_image = [pygame.image.load(f"Block{i}.png") for i in range(2, 6)]
+for i in range(4):
+    block_image[i] = pygame.transform.scale(block_image[i], (50, 50))
+block_image = random.choice(block_image)
 
 block_width, block_height = 50, 50
 block_x = WIDTH // 2 - block_width // 2
